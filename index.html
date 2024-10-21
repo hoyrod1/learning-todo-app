@@ -22,7 +22,7 @@
           <img src="logo.png" alt="Today I Learned Logo" />
           <h1>Today I Learned</h1>
         </div>
-        <button class="btn btn-large">Share A Fact</button>
+        <button id="btn-open" class="btn btn-large">Share A Fact</button>
       </header>
       <!------------------ ENDING OF HEADER LAYOUT ------------------>
 
@@ -37,7 +37,7 @@
       <!--------------- ENDING OF TEST CSS GRID LAY-OUT --------------->
 
       <!------------------ BEGINNING OF FORM LAYOUT ------------------>
-      <form class="fact-form">
+      <form id="fact-form-id" class="fact-form hidden">
         <input type="text" placeholder="Share a Fact with world..." />
         <span>200</span>
         <input type="text" placeholder="Trustworthy source..." />
@@ -156,4 +156,5 @@
     </div>
     <!------------------ ENDING OF CONTAINER LAYOUT ------------------>
   </body>
+  <script src="script.js"></script>
 </html>

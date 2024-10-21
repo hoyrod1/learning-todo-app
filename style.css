@@ -84,6 +84,11 @@ h1 {
   font-size: 18px;
   margin: 0 18px 0 0;
 }
+
+.hidden {
+  /* RIGHT !important so this style takes precedence before another style */
+  display: none !important;
+}
 /* Ending Of Styles For Form Elements */
 /* -----------------------------------------------------------------------------------*/
 
@@ -158,12 +163,12 @@ ul {
   background-image: linear-gradient(135deg, #3b82f6, #ef4444, #eab308, #16a34a);
   /* Use inherit with elements that do not inherit styles from the parent */
   color: inherit;
-  transition: 0.05s linear;
+  transition: 0.2s linear;
   cursor: pointer;
 }
 
 .btn:hover {
-  transform: rotate(-2deg);
+  transform: rotate(-8deg);
 }
 
 .btn-large {
@@ -244,6 +249,11 @@ ul {
 }
 
 @media (max-width: 900px) {
+  .header {
+    flex-direction: column;
+    gap: 5px;
+  }
+
   .fact-form {
     flex-direction: column;
     align-items: stretch;
@@ -256,6 +266,12 @@ ul {
 
   .main {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 {
+    font-size: 28px;
   }
 }
 /* -----------------------------------------------------------------------------------*/
