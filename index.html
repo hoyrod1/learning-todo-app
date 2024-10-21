@@ -1,87 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>STC media incs Learning Todo App</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-      <header>
-        <img src="logo.png" height="68" width="68" alt="Today I Learned Logo"/>
-        <h1>Today I Learned</h1>
-        <button>Share A Fact</button>
-      <header>
-  
-      <form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STC media incs Learning Todo App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Coiny&family=Sono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!--------------- BEGINNING OF CONTAINER LAYOUT --------------->
+    <div class="container">
+      <!---------------- BEGINNING OF HEADER LAYOUT ---------------->
+      <header class="header">
+        <div class="logo">
+          <img src="logo.png" alt="Today I Learned Logo" />
+          <h1>Today I Learned</h1>
+        </div>
+        <button class="btn btn-large">Share A Fact</button>
+      </header>
+      <!------------------ ENDING OF HEADER LAYOUT ------------------>
+
+      <!------------- BEGINNING OF TEST CSS GRID LAY-OUT ------------->
+      <!-- <div class="test">
+        <p class="child">1</p>
+        <p class="child">2</p>
+        <p class="child">3</p>
+        <p class="child">4</p>
+        <p class="child">5</p>
+      </div> -->
+      <!--------------- ENDING OF TEST CSS GRID LAY-OUT --------------->
+
+      <!------------------ BEGINNING OF FORM LAYOUT ------------------>
+      <form class="fact-form">
         <input type="text" placeholder="Share a Fact with world..." />
         <span>200</span>
-        <input type="text" placeholder="Trustworthy spurce..."/>
+        <input type="text" placeholder="Trustworthy source..." />
         <select>
-          <option value="">Choose category</option> 
+          <option value="">Choose category</option>
           <option value="technology">Technology</option>
           <option value="science">Science</option>
           <option value="finance">Finance</option>
         </select>
-        <button   value="Post">Post</button>
+        <button class="btn btn-large" value="Post">Post</button>
       </form>
-  
-      <main>
+      <!-------------------- ENDING OF FORM LAYOUT -------------------->
+
+      <!------------------- BEGINNING OF MAIN LAYOUT ------------------>
+      <main class="main">
+        <!------------------ BEGINNING OF ASIDE LAYOUT ----------------->
         <aside>
           <ul>
-            <li><button>All</button></li>
-            <li><button>Technology</button></li>
-            <li><button>Science</button></li>
+            <li class="category">
+              <button class="btn btn-all-categories">All</button>
+            </li>
+            <li class="category">
+              <button
+                class="btn btn-category"
+                style="background-color: #3b82f6"
+              >
+                Technology
+              </button>
+            </li>
+            <li class="category">
+              <button
+                class="btn btn-category"
+                style="background-color: #16a34a"
+              >
+                Science
+              </button>
+            </li>
           </ul>
-        <aside>
+        </aside>
+        <!-------------------- ENDING OF ASIDE LAYOUT -------------------->
 
+        <!------------------ BEGINNING OF SECTION LAYOUT ----------------->
         <section>
           <ul>
-
-            <li>
-                <p>
-                  React is being developed by Meta (formerly facebook)
-                  <a href="https://opensource.fb.com/" target="_blank>">(source)</a>
-                  <span>#technology#</span>
-                </p>
-                <div>
-                  <button>👍🏾 <strong>24</strong></button>
-                  <button>🔥 <strong>9</strong></button>
-                  <button>⛔️ <strong>4</strong></button>
-                </div>
-            </li> 
-
-            <li>
+            <li class="fact">
               <p>
-                Millennial dads spend 3 times as much time with their kids than their fathers spent with them. In 1982, 43% of fathers had never changed a diaper. Today, that number is down to 3%"
-                <a href="https://www.mother.ly/parenting/millennial-dads-spend-more-time-with-their-kids" target="_blank"> (Source) </a>
-                <span> #society# </span>
+                React is being developed by Meta (formerly facebook)
+                <a
+                  class="source"
+                  href="https://opensource.fb.com/"
+                  target="_blank>"
+                  >(source)</a
+                >
               </p>
-              <div>
-                <button>👍🏾 <strong>11</strong></button>
-                <button>🔥 <strong>2</strong></button>
-                <button>⛔️ <strong>0</strong></button>
+              <span class="tag" style="background-color: #3b82f6"
+                >technology</span
+              >
+              <div class="vote-buttons">
+                <button>👍🏾 24</button>
+                <button>🤯 9</button>
+                <button>⛔️ 4</button>
               </div>
             </li>
 
-            <li>
+            <li class="fact">
+              <p>
+                Millennial dads spend 3 times as much time with their kids than
+                their fathers spent with them. In 1982, 43% of fathers had never
+                changed a diaper. Today, that number is down to 3%
+                <a
+                  class="source"
+                  href="https://www.mother.ly/parenting/millennial-dads-spend-more-time-with-their-kids"
+                  target="_blank"
+                >
+                  (Source)
+                </a>
+              </p>
+              <span class="tag" style="background-color: #eab308">
+                society
+              </span>
+              <div class="vote-buttons">
+                <button>👍🏾 11</button>
+                <button>🤯 2</button>
+                <button>⛔️ 0</button>
+              </div>
+            </li>
+
+            <li class="fact">
               <p>
                 Lisbon is the capital of Portugal
-                <a href="https://en.wikipedia.org/wiki/Lisbon" target="_blank"> (Source) </a>
-                <span> #society# </span>
+                <a
+                  class="source"
+                  href="https://en.wikipedia.org/wiki/Lisbon"
+                  target="_blank"
+                >
+                  (Source)
+                </a>
               </p>
-              <div>
-                <button>👍🏾 <strong>8</strong></button>
-                <button>🔥 <strong>3</strong></button>
-                <button>⛔️ <strong>1</strong></button>
+              <span class="tag" style="background-color: #8b5cf6">
+                society
+              </span>
+              <div class="vote-buttons">
+                <button>👍🏾 9</button>
+                <button>🤯 3</button>
+                <button>⛔️ 1</button>
               </div>
             </li>
-
           </ul>
-        <section>
+        </section>
+        <!------------------ BEGINNING OF SECTION LAYOUT ----------------->
       </main>
+      <!------------------- ENDING OF MAIN LAYOUT ------------------->
+      <footer>
+        <p class="footer-logo">STC media inc Technology</p>
+      </footer>
+    </div>
+    <!------------------ ENDING OF CONTAINER LAYOUT ------------------>
   </body>
-  
-  </html>
-  
+</html>

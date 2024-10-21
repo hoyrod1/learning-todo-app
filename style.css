@@ -1,28 +1,281 @@
 /* index.css */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 body {
-  background-color: aquamarine;
+  background-color: #525252;
+  color: #fafaf9;
+  font-family: "Sono", sans-serif;
+  padding: 40px;
+}
+
+.container {
+  width: 100%;
+  background-color: rgba(145, 143, 143, 0.345);
+  margin: 0 auto;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 2px 2px 50px 3px white;
+}
+
+.header {
+  margin: 0 0 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo img {
+  width: 68px;
+  height: 68px;
 }
 
 h1 {
   font-size: 42px;
   text-transform: uppercase;
   text-align: center;
+  font-family: "Coiny", sans-serif;
+  line-height: 1;
+  margin: 6px;
 }
 
-p {
+/* -----------------------------------------------------------------------------------*/
+/* Beginning Of Styles For Form Elements */
+.fact-form {
+  background-color: #444444;
+  margin: 0 0 40px 0;
+  padding: 16px 32px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.fact-form input,
+.fact-form select {
+  background-color: #78716c;
+  border: none;
+  border-radius: 100px;
+  padding: 16px;
+  font-size: 18px;
+  color: inherit;
+  font-family: inherit;
+}
+
+.fact-form input:first-child {
+  /* set the element to flex-grow:1; when you want element to grow with page */
+  flex-grow: 1;
+}
+
+.fact-form input::placeholder {
+  color: #a8a29e;
+}
+
+.fact-form span {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0 18px 0 0;
+}
+/* Ending Of Styles For Form Elements */
+/* -----------------------------------------------------------------------------------*/
+
+/* -----------------------------------------------------------------------------------*/
+/* Beginning Of Styles For Main Section Layout */
+.main {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 48px;
+}
+
+.fact {
   font-size: 20px;
   line-height: 1.4;
-  font-family: sans-serif;
+  background-color: #44403c;
+  margin: 0 0 16px 0;
+  padding: 16px 24px;
+  letter-spacing: -1;
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 }
 
-span {
+.tag {
   text-transform: uppercase;
   font-size: 14px;
+  font-family: "Coiny", sans-serif;
+  padding: 3px 10px 0 10px;
+  border-radius: 100px;
 }
+/* Ending Of Styles For Main Section Layout */
+/* -----------------------------------------------------------------------------------*/
 
+/* -----------------------------------------------------------------------------------*/
+/* Beginning Of Styles For Page Links */
 ul {
   list-style: none;
 }
+
+.category {
+  margin-bottom: 16px;
+}
+
+.source:link,
+.source:visited {
+  color: rgb(33, 192, 49);
+  text-decoration: none;
+  margin: 0 0 0 12px;
+  transition: 1s linear;
+}
+
+.source:hover,
+.source:active {
+  color: #3b82f6;
+}
+/* Ending Of Styles For Page Links */
+/* -----------------------------------------------------------------------------------*/
+
+/* -----------------------------------------------------------------------------------*/
+/* Beginning Of Styles For The Button */
+.btn {
+  border: none;
+  font-family: "Coiny", sans-serif;
+  line-height: 1;
+  text-transform: uppercase;
+  font-size: 17px;
+  padding: 16px 0 13px;
+  border-radius: 100px;
+  background-image: linear-gradient(135deg, #3b82f6, #ef4444, #eab308, #16a34a);
+  /* Use inherit with elements that do not inherit styles from the parent */
+  color: inherit;
+  transition: 0.05s linear;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: rotate(-2deg);
+}
+
+.btn-large {
+  font-size: 20px;
+  padding: 20px 32px 17px;
+}
+
+.btn-all-categories {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.btn-category {
+  width: 100%;
+  background-image: none;
+}
+
+.vote-buttons {
+  margin-left: auto;
+  /* Use when you don't want the element to shrink using flex box */
+  flex-shrink: 0;
+
+  display: flex;
+  gap: 10px;
+}
+
+.vote-buttons button {
+  border: none;
+  background-color: #78716c;
+  font-size: 18px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  color: inherit;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 1s linear;
+}
+
+.vote-buttons button:hover {
+  background-color: #292524;
+  box-shadow: 2px 2px 25px 3px white;
+}
+/* Eding Of Styles For The Button */
+/* -----------------------------------------------------------------------------------*/
+
+/* -----------------------------------------------------------------------------------*/
+.footer-logo {
+  text-align: center;
+}
+/* -----------------------------------------------------------------------------------*/
+
+/* -----------------------------------------------------------------------------------*/
+/* Media Query */
+@media (max-width: 1200px) {
+  .fact-form select,
+  .fact-form input {
+    font-size: 12px;
+  }
+
+  .fact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1000px) {
+  .fact-form select,
+  .fact-form input {
+    font-size: 10px;
+  }
+
+  .fact {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 900px) {
+  .fact-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fact-form input,
+  .fact-form select {
+    width: auto;
+  }
+
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
+/* -----------------------------------------------------------------------------------*/
+
+/* -----------------------------------------------------------------------------------*/
+/* Beginning of css for testing grid lay-out */
+/* .test {
+  background-color: goldenrod;
+  margin: 100px;
+  
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px 200px;
+  column-gap: 30px;
+  row-gap: 50px;
+}
+
+.child {
+  background-color: brown;
+  font-size: 25px;
+} */
+/* Ending of css for testing grid lay-out */
+/* -----------------------------------------------------------------------------------*/
