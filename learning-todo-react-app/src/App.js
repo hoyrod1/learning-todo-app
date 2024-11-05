@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import supabase from "./supabase";
 import "./style.css";
 //=========================== CACHE THE ARRAY ELEMENTS OF CATEGORIES ===========================//
 const CATEGORIES = [
@@ -49,8 +50,25 @@ const initialFacts = [
 //==================================================================================================//
 //=========================== APPLICATION ===========================//
 function App() {
-  const [facts, setFacts] = useState(initialFacts);
+  const [isLoading, setIsLoading] = useState(false);
+  const [facts, setFacts] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all");
+
+  useEffect(function () {
+    async function getFacts() {
+      setIsLoading(true);
+      let { data: technolgy, error } = await supabase
+        .from("technolgy-todo")
+        .select("*")
+        .order("votesInteresting", { ascending: false });
+      if (!error) setFacts(technolgy);
+      else alert("There was an error retrieving the facts");
+      setIsLoading(false);
+    }
+    getFacts();
+  }, []);
+
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
@@ -58,12 +76,28 @@ function App() {
         <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
       ) : null}
       <main className="main">
-        <Categories />
-        <FactList facts={facts} />
+        {isLoading ? (
+          <CategoriesLoader />
+        ) : (
+          <Categories setCurrentCategory={setCurrentCategory} />
+        )}
+        {isLoading ? <FactsLoader /> : <FactList facts={facts} />}
       </main>
       <Footer />
     </>
   );
+}
+//===================================================================//
+
+//==================== Categories Loader COMPONENT ==================//
+function CategoriesLoader() {
+  return <p className="catLoader">The Categories Are Loading...</p>;
+}
+//===================================================================//
+
+//==================== Categories Loader COMPONENT ==================//
+function FactsLoader() {
+  return <p className="factsLoader">The Facts Are Loading...</p>;
 }
 //===================================================================//
 
@@ -111,7 +145,7 @@ function NewFactForm({ setFacts, setShowForm }) {
   function submitForm(e) {
     // PREVENT BROWSER FROM RELOADING//
     e.preventDefault();
-    console.log(text, source, category);
+    // console.log(text, source, category);
     // PERFORM FORM VALIDATION
     if (text && isValidHttpUrl(source) && category && textLength <= 200) {
       // CREATE A NEW FACT OBJECT
@@ -169,16 +203,25 @@ function NewFactForm({ setFacts, setShowForm }) {
 //===================================================================//
 
 //======================= CATEGORIES COMPONENT ======================//
-function Categories() {
+function Categories({ setCurrentCategory }) {
   const categories = CATEGORIES;
   return (
     <aside>
       <ul className="category-list">
         <li className="category">
-          <button className="btn btn-all-categories">All</button>
+          <button
+            className="btn btn-all-categories"
+            onClick={() => setCurrentCategory()}
+          >
+            All
+          </button>
         </li>
         {categories.map((category) => (
-          <Category key={category.name} cat={category} />
+          <Category
+            key={category.name}
+            cat={category}
+            setCurrentCategory={setCurrentCategory}
+          />
         ))}
       </ul>
     </aside>
@@ -224,6 +267,7 @@ function Fact({ fact }) {
       <span className="tag" style={{ backgroundColor: "#3b82f6" }}>
         {fact.category}
       </span>
+      <span className="tag">{fact.created_at}</span>
       <div className="vote-buttons">
         <button>👍🏾 {fact.votesInteresting}</button>
         <button>🤯 {fact.votesMindblowing}</button>

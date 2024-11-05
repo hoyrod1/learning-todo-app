@@ -122,6 +122,16 @@ h1 {
   padding: 3px 10px 0 10px;
   border-radius: 100px;
 }
+
+.factsLoader,
+.catLoader {
+  color: #eab308;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 32px;
+  font-weight: 600;
+  margin-top: 24px;
+}
 /* Ending Of Styles For Main Section Layout */
 /* -----------------------------------------------------------------------------------*/
 
