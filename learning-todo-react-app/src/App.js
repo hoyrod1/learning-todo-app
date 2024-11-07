@@ -32,7 +32,7 @@ const initialFacts = [
       "https://www.mother.ly/parenting/millennial-dads-spend-more-time-with-their-kids",
     category: "society",
     votesInteresting: 11,
-    votesMindblowing: 2,
+    votesMindBlowing: 2,
     votesFalse: 0,
     createdIn: 2019,
   },
@@ -53,21 +53,36 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [facts, setFacts] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  // "currentCategory" is set to "all" by default
+  // This is only check if another category is selected
   const [currentCategory, setCurrentCategory] = useState("all");
 
-  useEffect(function () {
-    async function getFacts() {
-      setIsLoading(true);
-      let { data: technolgy, error } = await supabase
-        .from("technolgy-todo")
-        .select("*")
-        .order("votesInteresting", { ascending: false });
-      if (!error) setFacts(technolgy);
-      else alert("There was an error retrieving the facts");
-      setIsLoading(false);
-    }
-    getFacts();
-  }, []);
+  useEffect(
+    function () {
+      async function getFacts() {
+        setIsLoading(true);
+
+        let query = supabase.from("technolgy-todo").select("*");
+
+        if (currentCategory !== "all")
+          query = query.eq("category", currentCategory);
+
+        const { data: technolgy, error } = await query
+          .order("votesInteresting", {
+            ascending: false,
+          })
+          .limit(1000);
+
+        if (!error) setFacts(technolgy);
+        else alert("There was an error retrieving the facts");
+
+        setIsLoading(false);
+      }
+      getFacts();
+      // "currentCategory" was added to the dependecy useEffect array to re-render the broser when another category is selected
+    },
+    [currentCategory]
+  );
 
   return (
     <>
@@ -101,6 +116,17 @@ function FactsLoader() {
 }
 //===================================================================//
 
+//==================== Categories Loader COMPONENT ==================//
+function NoFactsLoader() {
+  return (
+    <p className="factsLoader">
+      The Are Currently No Facts for this Category. Please feel free to create
+      the first one
+    </p>
+  );
+}
+//===================================================================//
+
 //========================= HEADER COMPONENT ========================//
 function Header({ showForm, setShowForm }) {
   const appTitle = "Today I Learned a Fact!!!";
@@ -128,6 +154,7 @@ function NewFactForm({ setFacts, setShowForm }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
+  const [isUpLoading, setIsUpLoading] = useState(false);
   const textLength = text.length;
 
   function isValidHttpUrl(string) {
@@ -142,25 +169,35 @@ function NewFactForm({ setFacts, setShowForm }) {
     return url.protocol === "http:" || url.protocol === "https:";
   }
 
-  function submitForm(e) {
+  async function submitForm(e) {
     // PREVENT BROWSER FROM RELOADING//
     e.preventDefault();
     // console.log(text, source, category);
     // PERFORM FORM VALIDATION
     if (text && isValidHttpUrl(source) && category && textLength <= 200) {
-      // CREATE A NEW FACT OBJECT
-      const newFact = {
-        id: Math.round(Math.random() * 10000000),
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
+      // CREATE A NEW FACT OBJECT FOR LOCAL FACTS
+      // const newFact = {
+      //   id: Math.round(Math.random() * 10000000),
+      //   text,
+      //   source,
+      //   category,
+      //   votesInteresting: 0,
+      //   votesMindBlowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
+      // console.log(newFact);
+      // SET setIsUpLoading(true)
+      setIsUpLoading(true);
+      // UPLOAD NEW FACT TO SUPABASE
+      const { data: newFact, error } = await supabase
+        .from("technolgy-todo")
+        .insert([{ text, source, category }])
+        .select();
+      // SET setIsUpLoading(true)
+      setIsUpLoading(false);
       // ADD THE NEW FACT TO THE UI; ADD FACT TO THE STATE
-      setFacts((facts) => [newFact, ...facts]);
+      setFacts((facts) => [newFact[0], ...facts]);
       // RESET INPUT FIELDS
       setText("");
       setSource("");
@@ -178,6 +215,7 @@ function NewFactForm({ setFacts, setShowForm }) {
         placeholder="Share a Fact with world..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        disabled={isUpLoading}
       />
       <span>{200 - textLength}</span>
       <input
@@ -185,8 +223,13 @@ function NewFactForm({ setFacts, setShowForm }) {
         placeholder="http://example.com"
         value={source}
         onChange={(e) => setSource(e.target.value)}
+        disabled={isUpLoading}
       />
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        disabled={isUpLoading}
+      >
         <option value="">Choose category</option>
         {categories.map((category) => (
           <option key={category.name} value={category.name}>
@@ -194,7 +237,7 @@ function NewFactForm({ setFacts, setShowForm }) {
           </option>
         ))}
       </select>
-      <button className="btn btn-large" value="Post">
+      <button className="btn btn-large" value="Post" disabled={isUpLoading}>
         Post
       </button>
     </form>
@@ -211,7 +254,7 @@ function Categories({ setCurrentCategory }) {
         <li className="category">
           <button
             className="btn btn-all-categories"
-            onClick={() => setCurrentCategory()}
+            onClick={() => setCurrentCategory("all")}
           >
             All
           </button>
@@ -228,12 +271,13 @@ function Categories({ setCurrentCategory }) {
   );
 }
 //------------------------ CATEGORY COMPONENT -----------------------//
-function Category({ cat }) {
+function Category({ cat, setCurrentCategory }) {
   return (
     <li className="category">
       <button
         className="btn btn-category"
         style={{ backgroundColor: cat.color }}
+        onClick={() => setCurrentCategory(cat.name)}
       >
         {cat.name}
       </button>
@@ -244,6 +288,9 @@ function Category({ cat }) {
 
 //======================= FACTS LIST COMPONENT ======================//
 function FactList({ facts }) {
+  if (facts.length === 0) {
+    return <NoFactsLoader />;
+  }
   return (
     <section>
       <ul className="fact-list">
@@ -270,7 +317,7 @@ function Fact({ fact }) {
       <span className="tag">{fact.created_at}</span>
       <div className="vote-buttons">
         <button>👍🏾 {fact.votesInteresting}</button>
-        <button>🤯 {fact.votesMindblowing}</button>
+        <button>🤯 {fact.votesMindBlowing}</button>
         <button>⛔️ {fact.votesFalse}</button>
       </div>
     </li>
