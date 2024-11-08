@@ -61,10 +61,12 @@ function App() {
     function () {
       async function getFacts() {
         setIsLoading(true);
-
+        // SELECT ALL THE FACTS FROM THE DATABASE
         let query = supabase.from("technolgy-todo").select("*");
 
         if (currentCategory !== "all")
+          // IF currentCategory state IS NOT "all"
+          // SELECT ALL THE FACTS THAT currentCategory IS SET TOO
           query = query.eq("category", currentCategory);
 
         const { data: technolgy, error } = await query
@@ -96,7 +98,11 @@ function App() {
         ) : (
           <Categories setCurrentCategory={setCurrentCategory} />
         )}
-        {isLoading ? <FactsLoader /> : <FactList facts={facts} />}
+        {isLoading ? (
+          <FactsLoader />
+        ) : (
+          <FactList setFacts={setFacts} facts={facts} />
+        )}
       </main>
       <Footer />
     </>
@@ -110,7 +116,7 @@ function CategoriesLoader() {
 }
 //===================================================================//
 
-//==================== Categories Loader COMPONENT ==================//
+//======================= Facts Loader COMPONENT ====================//
 function FactsLoader() {
   return <p className="factsLoader">The Facts Are Loading...</p>;
 }
@@ -196,8 +202,8 @@ function NewFactForm({ setFacts, setShowForm }) {
         .select();
       // SET setIsUpLoading(true)
       setIsUpLoading(false);
-      // ADD THE NEW FACT TO THE UI; ADD FACT TO THE STATE
-      setFacts((facts) => [newFact[0], ...facts]);
+      // IF ERROR IS FALSE ADD THE NEW FACT TO THE UI; ADD FACT TO THE STATE
+      if (!error) setFacts((facts) => [newFact[0], ...facts]);
       // RESET INPUT FIELDS
       setText("");
       setSource("");
@@ -287,7 +293,7 @@ function Category({ cat, setCurrentCategory }) {
 //===================================================================//
 
 //======================= FACTS LIST COMPONENT ======================//
-function FactList({ facts }) {
+function FactList({ facts, setFacts }) {
   if (facts.length === 0) {
     return <NoFactsLoader />;
   }
@@ -295,14 +301,30 @@ function FactList({ facts }) {
     <section>
       <ul className="fact-list">
         {facts.map((fact) => (
-          <Fact key={fact.id} fact={fact} />
+          <Fact key={fact.id} fact={fact} setFacts={setFacts} />
         ))}
       </ul>
     </section>
   );
 }
 //----------------------- FACT LIST COMPONENT -----------------------//
-function Fact({ fact }) {
+function Fact({ fact, setFacts }) {
+  const [isUpdating, setIsUpdating] = useState(false);
+  //ASYNC FUNCTION TO VOTE ON THE FACTS
+  async function handleVote(votescolumn, votes) {
+    setIsUpdating(true);
+    const { data: updatedFact, error } = await supabase
+      .from("technolgy-todo")
+      .update({ [votescolumn]: votes + 1 })
+      .eq("id", fact.id)
+      .select();
+    // console.log(updatedFact);
+    if (!error)
+      setFacts((facts) =>
+        facts.map((f) => (f.id === fact.id ? updatedFact[0] : f))
+      );
+    setIsUpdating(false);
+  }
   return (
     <li className="fact">
       <p>
@@ -316,9 +338,24 @@ function Fact({ fact }) {
       </span>
       <span className="tag">{fact.created_at}</span>
       <div className="vote-buttons">
-        <button>👍🏾 {fact.votesInteresting}</button>
-        <button>🤯 {fact.votesMindBlowing}</button>
-        <button>⛔️ {fact.votesFalse}</button>
+        <button
+          onClick={() => handleVote("votesInteresting", fact.votesInteresting)}
+          disabled={isUpdating}
+        >
+          👍🏾 {fact.votesInteresting}
+        </button>
+        <button
+          onClick={() => handleVote("votesMindBlowing", fact.votesMindBlowing)}
+          disabled={isUpdating}
+        >
+          🤯 {fact.votesMindBlowing}
+        </button>
+        <button
+          onClick={() => handleVote("votesFalse", fact.votesFalse)}
+          disabled={isUpdating}
+        >
+          ⛔️ {fact.votesFalse}
+        </button>
       </div>
     </li>
   );

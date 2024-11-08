@@ -222,6 +222,11 @@ ul {
   background-color: #292524;
   box-shadow: 2px 2px 25px 3px white;
 }
+
+.vote-buttons button:disabled {
+  background-color: #040404;
+  box-shadow: 2px 2px 25px 10px rgb(241, 31, 31);
+}
 /* Eding Of Styles For The Button */
 /* -----------------------------------------------------------------------------------*/
 
