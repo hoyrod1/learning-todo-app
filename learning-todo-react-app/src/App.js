@@ -298,7 +298,7 @@ function FactList({ facts, setFacts }) {
     return <NoFactsLoader />;
   }
   return (
-    <section>
+    <section className="fact-section">
       <ul className="fact-list">
         {facts.map((fact) => (
           <Fact key={fact.id} fact={fact} setFacts={setFacts} />
@@ -310,6 +310,8 @@ function FactList({ facts, setFacts }) {
 //----------------------- FACT LIST COMPONENT -----------------------//
 function Fact({ fact, setFacts }) {
   const [isUpdating, setIsUpdating] = useState(false);
+  const isDiputed =
+    fact.votesInteresting + fact.votesMindBlowing < fact.votesFalse;
   //ASYNC FUNCTION TO VOTE ON THE FACTS
   async function handleVote(votescolumn, votes) {
     setIsUpdating(true);
@@ -332,6 +334,7 @@ function Fact({ fact, setFacts }) {
         <a className="source" href={fact.source} target="_blank>">
           (source)
         </a>
+        {isDiputed ? <span className="disputed">(⛔DISPUTED)</span> : null}
       </p>
       <span className="tag" style={{ backgroundColor: "#3b82f6" }}>
         {fact.category}

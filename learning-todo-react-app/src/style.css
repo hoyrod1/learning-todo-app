@@ -12,12 +12,18 @@ body {
 }
 
 #root {
-  width: 100%;
+  width: 95vw;
   background-color: rgba(145, 143, 143, 0.345);
   margin: 0 auto;
   border-radius: 16px;
   padding: 15px;
   box-shadow: 2px 2px 25px 2px white;
+}
+
+.fact-section {
+  height: 95vw;
+  overflow: scroll;
+  /* background-color: #16a34a; */
 }
 
 .header {
@@ -95,6 +101,8 @@ h1 {
 /* -----------------------------------------------------------------------------------*/
 /* Beginning Of Styles For Main Section Layout */
 .main {
+  /* height: 100vh; */
+  height: 100%;
   display: grid;
   grid-template-columns: 250px 1fr;
   gap: 48px;
@@ -139,6 +147,10 @@ h1 {
 /* Beginning Of Styles For Page Links */
 ul {
   list-style: none;
+}
+
+.fact-list {
+  overflow-y: scroll;
 }
 
 .category {
@@ -227,7 +239,14 @@ ul {
   background-color: #040404;
   box-shadow: 2px 2px 25px 10px rgb(241, 31, 31);
 }
-/* Eding Of Styles For The Button */
+
+.disputed {
+  display: inline-block;
+  color: red;
+  font-weight: 900;
+  margin-top: 5px;
+}
+/* Ending Of Styles For The Button */
 /* -----------------------------------------------------------------------------------*/
 
 /* -----------------------------------------------------------------------------------*/
@@ -261,6 +280,10 @@ ul {
   .fact {
     font-size: 15px;
   }
+
+  h1 {
+    font-size: xx-large;
+  }
 }
 
 @media (max-width: 900px) {
@@ -284,9 +307,21 @@ ul {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 650px) {
   h1 {
-    font-size: 28px;
+    font-size: x-large;
+  }
+}
+
+@media (max-width: 450px) {
+  h1 {
+    font-size: medium;
+  }
+}
+
+@media (max-width: 350px) {
+  h1 {
+    font-size: small;
   }
 }
 /* -----------------------------------------------------------------------------------*/
